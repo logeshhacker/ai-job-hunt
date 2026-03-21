@@ -4,6 +4,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -48,6 +52,8 @@ def create_app(config_name='development'):
     
     # Create database tables
     with app.app_context():
+        from app.models.user import User
+
         db.create_all()
     
     # Register blueprints
