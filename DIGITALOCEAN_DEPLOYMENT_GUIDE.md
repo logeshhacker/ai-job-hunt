@@ -417,8 +417,8 @@ GRANT ALL PRIVILEGES ON DATABASE aijobhuntdb TO aijobhunt;
 # Navigate to a good location for apps
 cd /var/www
 
-# Clone your repository (replace with your actual GitHub URL)
-git clone https://github.com/logeshhacker/ai-job-hunt.git
+# Clone your repository (replace YOUR_GITHUB_USERNAME with your actual GitHub username)
+git clone https://github.com/YOUR_GITHUB_USERNAME/ai-job-hunt.git
 
 # Enter the project folder
 cd ai-job-hunt
@@ -637,7 +637,7 @@ DigitalOcean's **App Platform** is the most Heroku-like experience.
 1. Go to: https://cloud.digitalocean.com/apps
 2. Click "Create App"
 3. Connect your GitHub account
-4. Select your repository: logeshhacker/ai-job-hunt
+4. Select your repository: your-username/ai-job-hunt
 5. DigitalOcean detects it's a Python app automatically
 6. Configure settings:
    ├─ Build Command: pip install -r backend/requirements.txt
