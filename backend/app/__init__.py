@@ -53,6 +53,8 @@ def create_app(config_name='development'):
     # Create database tables
     with app.app_context():
         from app.models.user import User
+        from app.models.job import Job
+        from app.models.application import Application
 
         db.create_all()
     
@@ -61,9 +63,13 @@ def create_app(config_name='development'):
     from app.routes.resume import resume_bp
     from app.routes.cover_letter import cover_letter_bp
     from app.routes.chat import chat_bp
+    from app.routes.jobs import jobs_bp
+    from app.routes.analytics import analytics_bp
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(resume_bp, url_prefix='/api/resume')
     app.register_blueprint(cover_letter_bp, url_prefix='/api/cover-letter')
     app.register_blueprint(chat_bp, url_prefix='/api/chat')
+    app.register_blueprint(jobs_bp, url_prefix='/api/jobs')
+    app.register_blueprint(analytics_bp, url_prefix='/api/analytics')
     
     return app

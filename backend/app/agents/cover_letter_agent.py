@@ -1,12 +1,7 @@
-from importlib import import_module
 from typing import Any, Dict
 
-try:
-    LLMChain = import_module('langchain.chains').LLMChain
-except ModuleNotFoundError:
-    LLMChain = import_module('langchain_community.chains').LLMChain
-
-PromptTemplate = import_module('langchain_core.prompts').PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 
 from app.agents.base_agent import BaseAgent
 
@@ -34,9 +29,15 @@ class CoverLetterAgent(BaseAgent):
                     'error': 'company_name is required.',
                 }
 
-            prompt = PromptTemplate(
-                input_variables=['resume_text', 'job_description', 'company_name'],
-                template="""You are an expert cover letter writer. Generate a professional, personalized cover letter based on the provided resume, job description, and company information.
+            prompt = ChatPromptTemplate.from_messages(
+                [
+                    (
+                        'system',
+                        'You are an expert cover letter writer who creates concise, personalized, professional letters based only on provided facts.',
+                    ),
+                    (
+                        'human',
+                        """Generate a professional, personalized cover letter based on the provided resume, job description, and company information.
 
 Guidelines:
 1. Write a compelling opening that shows genuine interest in the company and role.
@@ -57,18 +58,18 @@ Company Name:
 {company_name}
 
 Generate a professional cover letter:""",
+                    ),
+                ]
             )
 
-            chain = LLMChain(llm=self.llm, prompt=prompt)
-            result = chain.invoke(
+            chain = prompt | self.llm | StrOutputParser()
+            cover_letter = chain.invoke(
                 {
                     'resume_text': resume_text,
                     'job_description': job_description,
                     'company_name': company_name,
                 }
-            )
-
-            cover_letter = result.get('text', '').strip() if isinstance(result, dict) else str(result).strip()
+            ).strip()
 
             return {
                 'success': True,

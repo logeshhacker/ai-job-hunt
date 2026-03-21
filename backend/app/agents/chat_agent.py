@@ -1,13 +1,7 @@
-from importlib import import_module
 from typing import Any, Dict, List, Optional
 
-try:
-    LLMChain = import_module('langchain.chains').LLMChain
-except ModuleNotFoundError:
-    LLMChain = import_module('langchain_community.chains').LLMChain
-
-ConversationBufferMemory = import_module('langchain.memory').ConversationBufferMemory
-PromptTemplate = import_module('langchain_core.prompts').PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 
 from app.agents.base_agent import BaseAgent
 
@@ -15,17 +9,17 @@ from app.agents.base_agent import BaseAgent
 class ChatAgent(BaseAgent):
     def __init__(self, temperature: float = 0.7, model_name: str = 'gpt-3.5-turbo'):
         super().__init__(temperature=temperature, model_name=model_name)
+        self.conversation_history: List[Dict[str, str]] = []
 
-        self.memory = ConversationBufferMemory(
-            memory_key='chat_history',
-            input_key='input',
-        )
-
-        self.prompt = PromptTemplate(
-            input_variables=['chat_history', 'input'],
-            template="""You are an expert career coach and job hunting advisor. Provide helpful, practical advice to job seekers.
-
-Your areas of expertise include:
+        self.prompt = ChatPromptTemplate.from_messages(
+            [
+                (
+                    'system',
+                    'You are an expert career coach and job hunting advisor. Provide practical, actionable support.',
+                ),
+                (
+                    'human',
+                    """Your areas of expertise include:
 - Resume optimization and tailoring
 - Cover letter strategies
 - Interview preparation
@@ -50,14 +44,22 @@ Chat History:
 User: {input}
 
 Career Advisor:""",
+                ),
+            ]
         )
 
-        self.chain = LLMChain(
-            llm=self.llm,
-            prompt=self.prompt,
-            memory=self.memory,
-            verbose=False,
-        )
+        self.chain = self.prompt | self.llm | StrOutputParser()
+
+    def _build_chat_history(self, history: List[Dict[str, str]]) -> str:
+        lines = []
+        for exchange in history:
+            user_text = (exchange.get('user') or '').strip()
+            assistant_text = (exchange.get('assistant') or '').strip()
+            if user_text:
+                lines.append(f'User: {user_text}')
+            if assistant_text:
+                lines.append(f'Career Advisor: {assistant_text}')
+        return '\n'.join(lines)
 
     def get_response(
         self, message: str, conversation_history: Optional[List[Dict[str, str]]] = None
@@ -69,19 +71,18 @@ Career Advisor:""",
                     'error': 'Message cannot be empty.',
                 }
 
-            # If conversation_history is provided, reconstruct memory state
-            if conversation_history:
-                self.memory.clear()
-                for exchange in conversation_history:
-                    if 'user' in exchange and 'assistant' in exchange:
-                        self.memory.save_context(
-                            {'input': exchange['user']},
-                            {'output': exchange['assistant']},
-                        )
+            if conversation_history is not None:
+                self.conversation_history = conversation_history
 
-            response = self.chain.invoke({'input': message.strip()})
+            chat_history = self._build_chat_history(self.conversation_history)
 
-            assistant_message = response.get('text', '').strip() if isinstance(response, dict) else str(response).strip()
+            assistant_message = self.chain.invoke(
+                {'chat_history': chat_history, 'input': message.strip()}
+            ).strip()
+
+            self.conversation_history.append(
+                {'user': message.strip(), 'assistant': assistant_message}
+            )
 
             return {
                 'success': True,
@@ -93,7 +94,7 @@ Career Advisor:""",
 
     def clear_memory(self) -> Dict[str, Any]:
         try:
-            self.memory.clear()
+            self.conversation_history = []
             return {
                 'success': True,
                 'message': 'Chat history cleared.',
@@ -103,7 +104,7 @@ Career Advisor:""",
 
     def get_memory_summary(self) -> Dict[str, Any]:
         try:
-            memory_content = self.memory.buffer if hasattr(self.memory, 'buffer') else ''
+            memory_content = self._build_chat_history(self.conversation_history)
             return {
                 'success': True,
                 'memory_content': memory_content,
