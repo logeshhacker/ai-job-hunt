@@ -58,6 +58,12 @@ def create_app(config_name='development'):
     
     # Register blueprints
     from app.routes.auth import auth_bp
+    from app.routes.resume import resume_bp
+    from app.routes.cover_letter import cover_letter_bp
+    from app.routes.chat import chat_bp
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(resume_bp, url_prefix='/api/resume')
+    app.register_blueprint(cover_letter_bp, url_prefix='/api/cover-letter')
+    app.register_blueprint(chat_bp, url_prefix='/api/chat')
     
     return app
