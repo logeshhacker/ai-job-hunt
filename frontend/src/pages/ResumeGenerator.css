@@ -1,0 +1,142 @@
+.resume-generator-page {
+  min-height: 100vh;
+  padding: 24px;
+  background: linear-gradient(160deg, #eff6ff 0%, #f8fafc 45%, #ecfeff 100%);
+}
+
+.resume-generator-card {
+  max-width: 980px;
+  margin: 0 auto;
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  padding: 24px;
+}
+
+.resume-generator-card h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  color: #0f172a;
+}
+
+.resume-generator-subtitle {
+  margin: 8px 0 20px;
+  color: #475569;
+}
+
+.resume-generator-form {
+  display: grid;
+  gap: 10px;
+}
+
+.resume-generator-form label {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.resume-generator-form textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.resume-generator-form textarea:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.16);
+}
+
+.resume-generator-form button {
+  margin-top: 6px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #0c4a6e, #0284c7);
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 700;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.resume-generator-form button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.resume-generator-error {
+  margin: 2px 0;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+.resume-result-section {
+  margin-top: 24px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 20px;
+}
+
+.resume-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.resume-result-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.copy-button {
+  border: 1px solid #bfdbfe;
+  border-radius: 9px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+.copy-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.resume-result-box {
+  margin-top: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 14px;
+  min-height: 220px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #0f172a;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.copy-status {
+  margin: 10px 0 0;
+  color: #0369a1;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .resume-generator-page {
+    padding: 16px;
+  }
+
+  .resume-generator-card {
+    padding: 16px;
+  }
+
+  .resume-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

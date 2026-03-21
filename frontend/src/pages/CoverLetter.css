@@ -1,0 +1,147 @@
+.cover-letter-page {
+  min-height: 100vh;
+  padding: 24px;
+  background: linear-gradient(165deg, #f8fafc 0%, #e0f2fe 55%, #dbeafe 100%);
+}
+
+.cover-letter-card {
+  max-width: 980px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+}
+
+.cover-letter-card h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  color: #0f172a;
+}
+
+.cover-letter-subtitle {
+  margin: 8px 0 20px;
+  color: #475569;
+}
+
+.cover-letter-form {
+  display: grid;
+  gap: 10px;
+}
+
+.cover-letter-form label {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.cover-letter-form input,
+.cover-letter-form textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.98rem;
+  padding: 10px 12px;
+}
+
+.cover-letter-form textarea {
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.cover-letter-form input:focus,
+.cover-letter-form textarea:focus {
+  outline: none;
+  border-color: #0369a1;
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.17);
+}
+
+.cover-letter-form button {
+  margin-top: 6px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #075985, #0284c7);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.cover-letter-form button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.cover-letter-error {
+  margin: 2px 0;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+.cover-letter-result {
+  margin-top: 24px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 20px;
+}
+
+.cover-letter-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cover-letter-result-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.cover-letter-copy {
+  border: 1px solid #bfdbfe;
+  border-radius: 9px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+.cover-letter-copy:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.cover-letter-result-box {
+  margin-top: 12px;
+  min-height: 220px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #0f172a;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.cover-letter-copy-status {
+  margin: 10px 0 0;
+  color: #0369a1;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .cover-letter-page {
+    padding: 16px;
+  }
+
+  .cover-letter-card {
+    padding: 16px;
+  }
+
+  .cover-letter-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
