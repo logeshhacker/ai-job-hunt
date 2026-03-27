@@ -1,0 +1,22 @@
+# Railway Deployment Configuration
+# Docs: https://docs.railway.app/reference/config-as-code
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "gunicorn --chdir backend wsgi:app --log-file -"
+healthcheckPath = "/api/auth/health"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+# Environment variables are managed via the Railway dashboard or CLI.
+# Add these under Settings → Variables in your Railway project:
+#
+#   DATABASE_URL      → auto-injected by the Railway PostgreSQL plugin
+#   JWT_SECRET_KEY    → set a long random string (e.g. `openssl rand -hex 32`)
+#   FLASK_ENV         → production
+#   CORS_ORIGINS      → comma-separated list of allowed frontend origins
+#
+# See docs/deployment/free-hosting-alternatives.md for full setup instructions.
